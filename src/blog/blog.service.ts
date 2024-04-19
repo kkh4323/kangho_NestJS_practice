@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Blog } from './entities/blog.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BlogService {
-  create(createBlogDto: CreateBlogDto) {
-    return 'This action adds a new blog';
+  constructor(
+    @InjectRepository(Blog)
+    private blogRepository: Repository<Blog>,
+  ) {}
+
+  // 전체 블로그 데이터 가져오는 로직
+  async getBlogDatas() {
+    return await this.blogRepository.find({});
   }
 
-  findAll() {
-    return `This action returns all blog`;
+  // 상세 블로그 데이터 가져오는 로직
+  async getBlogById(id: string) {
+    const blog = await this.blogRepository.findOneBy({ id });
+    if (!blog) throw new NotFoundException();
+    return blog;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} blog`;
+  // 블로그 등록하는 로직
+  async createBlog(createBlogDto: CreateBlogDto) {
+    const newBlog = await this.blogRepository.create(createBlogDto);
+    await this.blogRepository.save(newBlog);
+    return newBlog;
   }
 
-  update(id: number, updateBlogDto: UpdateBlogDto) {
-    return `This action updates a #${id} blog`;
+  // 블로그 수정하는 로직
+  async updateBlogById(id: string, updateBlogDto: CreateBlogDto) {
+    const blog = await this.blogRepository.update(id, updateBlogDto);
+    if (blog.affected) return 'updated';
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} blog`;
+  // 블로그 삭제하는 로직
+  async deleteBlogById(id: string) {
+    const result = await this.blogRepository.delete({ id });
+    if (result.affected) return `${id} delete success`;
   }
 }
