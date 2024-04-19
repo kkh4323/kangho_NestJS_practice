@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -16,5 +16,17 @@ export class UserService {
     const newUser = await this.userRepository.create(createUserDto);
     await this.userRepository.save(newUser);
     return newUser;
+  }
+
+  // 이메일 검색
+  async getUserByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email });
+    if (!user) {
+      throw new HttpException(
+        'user with this email does not exist',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return user;
   }
 }
