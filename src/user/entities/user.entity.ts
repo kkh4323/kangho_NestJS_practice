@@ -15,6 +15,6 @@ export class User extends BaseEntity {
   @Column()
   public phone: string;
 
-  @Column()
-  public profileImg: string;
+  @Column({ nullable: true })
+  public profileImg?: string;
 }
