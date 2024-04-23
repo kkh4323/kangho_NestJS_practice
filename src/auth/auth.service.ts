@@ -3,10 +3,14 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { LoginUserDto } from '../user/dto/login-user.dto';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly emailService: EmailService,
+  ) {}
 
   // 회원가입
   async signinUser(createUserDto: CreateUserDto) {
@@ -24,6 +28,11 @@ export class AuthService {
       // return createdUser;
       const createdUser = await this.userService.createUser(createUserDto);
       createdUser.password = undefined;
+      await this.emailService.sendMail({
+        to: createUserDto.email,
+        subject: 'welcome kangho world',
+        text: 'welcome to kangho world',
+      });
       return createdUser;
     } catch (error) {
       if (error?.code === 23305) {
