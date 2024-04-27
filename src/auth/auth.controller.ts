@@ -15,6 +15,7 @@ import { LocalAuthGuard } from './guardies/local-auth.guard';
 import { RequestWithUserInterface } from './interfaces/requestWithUser.interface';
 import { JwtAuthGuard } from './guardies/jwt-auth.guard';
 import { GoogleAuthGuard } from './guardies/google-auth.guard';
+import { KakaoAuthGuard } from './guardies/kakao-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -54,6 +55,20 @@ export class AuthController {
   @Get('/google/callback')
   @UseGuards(GoogleAuthGuard)
   async googleLoginCallback(@Req() req: RequestWithUserInterface) {
+    return req.user;
+  }
+
+  @HttpCode(200)
+  @Get('/kakao')
+  @UseGuards(KakaoAuthGuard)
+  async kakaoLogin() {
+    return HttpStatus.OK;
+  }
+
+  @HttpCode(200)
+  @Get('/kakao/callback')
+  @UseGuards(KakaoAuthGuard)
+  async kakaoLoginCallback(@Req() req: RequestWithUserInterface) {
     return req.user;
   }
 }

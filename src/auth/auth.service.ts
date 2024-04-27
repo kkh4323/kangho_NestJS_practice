@@ -40,7 +40,7 @@ export class AuthService {
       });
       return createdUser;
     } catch (error) {
-      if (error?.code === 23305) {
+      if (error?.code === '23505') {
         throw new HttpException(
           'user with that email already exists',
           HttpStatus.BAD_REQUEST,
