@@ -29,4 +29,16 @@ export class UserService {
     }
     return user;
   }
+
+  // 아이디 검색
+  async getUserById(id: string) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new HttpException(
+        'user with this id does not exist',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return user;
+  }
 }

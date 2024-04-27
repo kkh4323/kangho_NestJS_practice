@@ -6,10 +6,11 @@ import { EmailModule } from '../email/email.module';
 import { LocalAuthStrategy } from './strategies/local-auth.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+import { JwtAuthStrategy } from './strategies/jwt-auth.strategy';
 
 @Module({
   imports: [UserModule, EmailModule, JwtModule.register({}), ConfigModule],
   controllers: [AuthController],
-  providers: [AuthService, LocalAuthStrategy],
+  providers: [AuthService, LocalAuthStrategy, JwtAuthStrategy],
 })
 export class AuthModule {}
