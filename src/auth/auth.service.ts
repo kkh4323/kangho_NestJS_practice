@@ -51,6 +51,7 @@ export class AuthService {
   // 로그인
   async loginUser(loginUserDto: LoginUserDto) {
     const user = await this.userService.getUserByEmail(loginUserDto.email);
+    console.log(loginUserDto);
     const isPasswordMatched = await bcrypt.compare(
       loginUserDto.password,
       user.password,

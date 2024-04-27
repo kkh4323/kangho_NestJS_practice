@@ -1,7 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { LoginUserDto } from '../user/dto/login-user.dto';
+import { LocalAuthGuard } from './guardies/local-auth.guard';
+import { RequestWithUserInterface } from './interfaces/requestWithUser.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -14,7 +16,11 @@ export class AuthController {
   }
   // 로그인
   @Post('/login')
-  async loggedInUser(@Body() loginUserDto: LoginUserDto) {
-    return await this.authService.loginUser(loginUserDto);
+  // async loggedInUser(@Body() loginUserDto: LoginUserDto) {
+  //   return await this.authService.loginUser(loginUserDto);
+  // }
+  @UseGuards(LocalAuthGuard)
+  async loggedInUser(@Req() req: RequestWithUserInterface) {
+    return await req.user;
   }
 }
