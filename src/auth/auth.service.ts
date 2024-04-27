@@ -4,12 +4,17 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { LoginUserDto } from '../user/dto/login-user.dto';
 import { EmailService } from '../email/email.service';
+import { TokenPayloadInterface } from './interfaces/tokenPayload.interface';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly emailService: EmailService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   // 회원가입
@@ -60,5 +65,14 @@ export class AuthService {
       throw new HttpException('password do not match', HttpStatus.BAD_REQUEST);
     }
     return user;
+  }
+
+  public generateAccessToken(userId: string) {
+    const payload: TokenPayloadInterface = { userId };
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get('ACCESS_TOKEN_SECURITY'),
+      expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRATION_TIME'),
+    });
+    return token;
   }
 }

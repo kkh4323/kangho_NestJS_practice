@@ -21,6 +21,8 @@ export class AuthController {
   // }
   @UseGuards(LocalAuthGuard)
   async loggedInUser(@Req() req: RequestWithUserInterface) {
-    return await req.user;
+    const user = await req.user;
+    const token = await this.authService.generateAccessToken(user.id);
+    return { user, token };
   }
 }
