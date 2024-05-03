@@ -13,6 +13,7 @@ export class UserService {
 
   // 유저 생성하는 로직
   async createUser(createUserDto: CreateUserDto) {
+    console.log(createUserDto);
     const newUser = await this.userRepository.create(createUserDto);
     await this.userRepository.save(newUser);
     return newUser;
