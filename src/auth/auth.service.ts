@@ -7,6 +7,7 @@ import { EmailService } from '../email/email.service';
 import { TokenPayloadInterface } from './interfaces/tokenPayload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { Provider } from '../user/entities/provider.enum';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +32,10 @@ export class AuthService {
       // });
       // createdUser.password = undefined;
       // return createdUser;
-      const createdUser = await this.userService.createUser(createUserDto);
+      const createdUser = await this.userService.createUser({
+        ...createUserDto,
+        provider: Provider.LOCAL,
+      });
       createdUser.password = undefined;
       await this.emailService.sendMail({
         to: createUserDto.email,
