@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -43,6 +44,15 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   async getUserInfoByToken(@Req() req: RequestWithUserInterface) {
     return req.user;
+  }
+
+  @Put()
+  @UseGuards(JwtAuthGuard)
+  async changePassword(
+    @Req() req: RequestWithUserInterface,
+    @Body('newPassword') newPassword: string,
+  ) {
+    return await this.authService.changePassword(req.user, newPassword);
   }
 
   @HttpCode(200)

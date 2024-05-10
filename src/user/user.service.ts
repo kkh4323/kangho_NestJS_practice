@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -41,5 +42,13 @@ export class UserService {
       );
     }
     return user;
+  }
+
+  // 패스워드 저장
+  async saveNewPassword(user: User, newPassword: string) {
+    const existedUser = await this.userRepository.findOneBy({ id: user.id });
+    const saltValue = await bcrypt.genSalt(10);
+    existedUser.password = await bcrypt.hash(newPassword, saltValue);
+    return await this.userRepository.save(existedUser);
   }
 }

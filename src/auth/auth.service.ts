@@ -8,6 +8,7 @@ import { TokenPayloadInterface } from './interfaces/tokenPayload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Provider } from '../user/entities/provider.enum';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -78,5 +79,17 @@ export class AuthService {
       expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRATION_TIME'),
     });
     return token;
+  }
+
+  async changePassword(user: User, newPassword: string) {
+    const existedUser = await this.userService.getUserByEmail(user.email);
+    if (existedUser.provider !== Provider.LOCAL) {
+      throw new HttpException(
+        'you have logged in by social ID',
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    } else {
+      return await this.userService.saveNewPassword(existedUser, newPassword);
+    }
   }
 }
