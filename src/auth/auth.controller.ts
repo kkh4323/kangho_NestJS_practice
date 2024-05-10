@@ -18,6 +18,7 @@ import { JwtAuthGuard } from './guardies/jwt-auth.guard';
 import { GoogleAuthGuard } from './guardies/google-auth.guard';
 import { KakaoAuthGuard } from './guardies/kakao-auth.guard';
 import { NaverAuthGuard } from './guardies/naver-auth.guard';
+import { VerifyEmailDto } from '../user/dto/verify-email.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -33,6 +34,12 @@ export class AuthController {
   @Post('/email/send')
   async sendEmail(@Body('email') email: string) {
     return await this.authService.sendEmail(email);
+  }
+
+  // 인증코드 비교
+  @Post('/email/verify')
+  async verifyEmailWithCode(@Body() verifyEmailDto: VerifyEmailDto) {
+    return await this.authService.verifyEmail(verifyEmailDto);
   }
 
   // 로그인

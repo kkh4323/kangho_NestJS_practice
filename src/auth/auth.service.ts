@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
@@ -11,6 +17,7 @@ import { Provider } from '../user/entities/provider.enum';
 import { User } from '../user/entities/user.entity';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/common/cache';
+import { VerifyEmailDto } from '../user/dto/verify-email.dto';
 
 @Injectable()
 export class AuthService {
@@ -105,6 +112,15 @@ export class AuthService {
       subject: 'Kangho App - email verification',
       text: `welcome to Kangho app, follow up this number ${generateNumber}`,
     });
+  }
+
+  async verifyEmail(verifyEmailDto: VerifyEmailDto) {
+    const emailCodeByRedis = await this.cacheManager.get(verifyEmailDto.email);
+    if (emailCodeByRedis !== verifyEmailDto.code) {
+      throw new BadRequestException('Wrong Code Provided.');
+    }
+    await this.cacheManager.del(verifyEmailDto.email);
+    return true;
   }
 
   generateOTP() {
