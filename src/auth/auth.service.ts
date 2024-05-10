@@ -92,4 +92,21 @@ export class AuthService {
       return await this.userService.saveNewPassword(existedUser, newPassword);
     }
   }
+
+  async sendEmail(email: string) {
+    const generateNumber = this.generateOTP();
+    await this.emailService.sendMail({
+      to: email,
+      subject: 'Kangho App - email verification',
+      text: `welcome to Kangho app, follow up this number ${generateNumber}`,
+    });
+  }
+
+  generateOTP() {
+    let OTP = '';
+    for (let i = 1; i <= 6; i++) {
+      OTP += Math.floor(Math.random() * 10);
+    }
+    return OTP;
+  }
 }

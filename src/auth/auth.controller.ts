@@ -28,6 +28,13 @@ export class AuthController {
   async registerUser(@Body() createUserDto: CreateUserDto) {
     return await this.authService.signinUser(createUserDto);
   }
+
+  // 이메일 전송
+  @Post('/email/send')
+  async sendEmail(@Body('email') email: string) {
+    return await this.authService.sendEmail(email);
+  }
+
   // 로그인
   @Post('/login')
   // async loggedInUser(@Body() loginUserDto: LoginUserDto) {
