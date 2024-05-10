@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
@@ -9,6 +9,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Provider } from '../user/entities/provider.enum';
 import { User } from '../user/entities/user.entity';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/common/cache';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,7 @@ export class AuthService {
     private readonly emailService: EmailService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   // 회원가입
@@ -95,6 +98,8 @@ export class AuthService {
 
   async sendEmail(email: string) {
     const generateNumber = this.generateOTP();
+    // 번호 저장
+    await this.cacheManager.set(email, generateNumber);
     await this.emailService.sendMail({
       to: email,
       subject: 'Kangho App - email verification',
