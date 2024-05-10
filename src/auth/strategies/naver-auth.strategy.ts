@@ -1,18 +1,20 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy } from 'passport-kakao';
+import { Strategy } from 'passport-naver-v2';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from '../../user/user.service';
+import { VerifyCallback } from 'passport-google-oauth2';
 
 @Injectable()
-export class KakaoAuthStrategy extends PassportStrategy(Strategy) {
+export class NaverAuthStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly configService: ConfigService,
     private readonly userService: UserService,
   ) {
     super({
-      clientID: configService.get('KAKAO_AUTH_CLIENT_ID'),
-      callbackURL: configService.get('KAKAO_AUTH_CALLBACK_URL'),
+      clientID: configService.get('NAVER_AUTH_CLIENT_ID'),
+      clientSecret: configService.get('NAVER_AUTH_CLIENT_SECRET'),
+      callbackURL: configService.get('NAVER_AUTH_CALLBACK_URL'),
     });
   }
 
@@ -20,16 +22,14 @@ export class KakaoAuthStrategy extends PassportStrategy(Strategy) {
     _accessToken: string,
     _refreshToken: string,
     profile: any,
-    done: any,
+    done: VerifyCallback,
   ) {
-    const { username, _json, provider } = profile;
+    const { nickname, email, provider, mobile, profileImage } = profile;
     try {
-      const user = await this.userService.getUserByEmail(
-        _json.kakao_account.email,
-      );
+      const user = await this.userService.getUserByEmail(email);
       if (user.provider !== provider) {
         const err = new HttpException(
-          `You are already subscribed to ${user.provider}`,
+          `You are already subscribed to ${user.provider}.`,
           HttpStatus.CONFLICT,
         );
         done(err, null);
@@ -38,10 +38,11 @@ export class KakaoAuthStrategy extends PassportStrategy(Strategy) {
     } catch (err) {
       if (err.status === 404) {
         const newUser = await this.userService.createUser({
-          username,
-          email: _json.kakao_account.email,
+          username: nickname,
+          email,
+          phone: mobile,
           provider,
-          profileImg: _json.properties.profile_image,
+          profileImg: profileImage,
         });
         done(null, newUser);
       } else {

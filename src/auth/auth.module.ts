@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtAuthStrategy } from './strategies/jwt-auth.strategy';
 import { GoogleAuthStrategy } from './strategies/google-auth.strategy';
 import { KakaoAuthStrategy } from './strategies/kakao-auth.strategy';
+import { NaverAuthStrategy } from './strategies/naver-auth.strategy';
 
 @Module({
   imports: [UserModule, EmailModule, JwtModule.register({}), ConfigModule],
@@ -19,6 +20,7 @@ import { KakaoAuthStrategy } from './strategies/kakao-auth.strategy';
     JwtAuthStrategy,
     GoogleAuthStrategy,
     KakaoAuthStrategy,
+    NaverAuthStrategy,
   ],
 })
 export class AuthModule {}

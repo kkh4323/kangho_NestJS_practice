@@ -34,6 +34,10 @@ import * as Joi from '@hapi/joi';
 
         KAKAO_AUTH_CLIENT_ID: Joi.string().required(),
         KAKAO_AUTH_CALLBACK_URL: Joi.string().required(),
+
+        NAVER_AUTH_CLIENT_ID: Joi.string().required(),
+        NAVER_AUTH_CLIENT_SECRET: Joi.string().required(),
+        NAVER_AUTH_CALLBACK_URL: Joi.string().required(),
       }),
     }),
     UserModule,
