@@ -1,8 +1,9 @@
-import { BeforeInsert, Column, Entity } from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { BaseEntity } from '../../common/base.entity';
 import * as bcrypt from 'bcryptjs';
 import * as gravatar from 'gravatar';
 import { Provider } from './provider.enum';
+import { AgreeOfTerm } from '../../agree-of-term/entities/agree-of-term.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -31,6 +32,13 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   public profileImg?: string;
+
+  @OneToOne(() => AgreeOfTerm, {
+    eager: true,
+    cascade: true,
+  })
+  @JoinColumn()
+  public agreeOfTerm: AgreeOfTerm;
 
   @BeforeInsert()
   async beforeSaveFunction() {
