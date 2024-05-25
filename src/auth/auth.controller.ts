@@ -19,7 +19,8 @@ import { GoogleAuthGuard } from './guardies/google-auth.guard';
 import { KakaoAuthGuard } from './guardies/kakao-auth.guard';
 import { NaverAuthGuard } from './guardies/naver-auth.guard';
 import { VerifyEmailDto } from '../user/dto/verify-email.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { EmailUserDto } from '../user/dto/email-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -33,8 +34,9 @@ export class AuthController {
 
   // 이메일 전송
   @Post('/email/send')
-  async sendEmail(@Body('email') email: string) {
-    return await this.authService.sendEmail(email);
+  @ApiBody({ type: EmailUserDto })
+  async sendEmail(@Body() emailUserDto: EmailUserDto) {
+    return await this.authService.sendEmail(emailUserDto);
   }
 
   // 인증코드 비교

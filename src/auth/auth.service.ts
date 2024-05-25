@@ -18,6 +18,7 @@ import { User } from '../user/entities/user.entity';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/common/cache';
 import { VerifyEmailDto } from '../user/dto/verify-email.dto';
+import { EmailUserDto } from '../user/dto/email-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -103,12 +104,12 @@ export class AuthService {
     }
   }
 
-  async sendEmail(email: string) {
+  async sendEmail(emailUserDto: EmailUserDto) {
     const generateNumber = this.generateOTP();
     // 번호 저장
-    await this.cacheManager.set(email, generateNumber);
+    await this.cacheManager.set(emailUserDto.email, generateNumber);
     await this.emailService.sendMail({
-      to: email,
+      to: emailUserDto.email,
       subject: 'Kangho App - email verification',
       text: `welcome to Kangho app, follow up this number ${generateNumber}`,
     });
