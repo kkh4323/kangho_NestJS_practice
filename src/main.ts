@@ -11,6 +11,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('kangho api')
     .setDescription('kangho api description')
+    .addBearerAuth()
     .setVersion('1.0')
     .addTag('kangho')
     .build();

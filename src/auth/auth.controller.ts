@@ -19,6 +19,7 @@ import { GoogleAuthGuard } from './guardies/google-auth.guard';
 import { KakaoAuthGuard } from './guardies/kakao-auth.guard';
 import { NaverAuthGuard } from './guardies/naver-auth.guard';
 import { VerifyEmailDto } from '../user/dto/verify-email.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -56,6 +57,7 @@ export class AuthController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   async getUserInfoByToken(@Req() req: RequestWithUserInterface) {
     return req.user;
   }
