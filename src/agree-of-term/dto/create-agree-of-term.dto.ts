@@ -16,7 +16,7 @@ export class CreateAgreeOfTermDto {
 
   @ApiProperty({ example: false })
   @IsBoolean()
-  agreeMarketing: boolean = false;
+  marketingAgree: boolean = false;
 
   @ApiProperty({ example: false })
   @IsBoolean()

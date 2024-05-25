@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { AgreeOfTermService } from './agree-of-term.service';
 import { CreateAgreeOfTermDto } from './dto/create-agree-of-term.dto';
 import { RequestWithUserInterface } from '../auth/interfaces/requestWithUser.interface';
@@ -20,6 +20,20 @@ export class AgreeOfTermController {
     return await this.agreeOfTermService.createAgreeOfTerm(
       req.user,
       createAgreeOfTermDto,
+    );
+  }
+
+  // 이용약관 동의사항 변경
+  @Put()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  async updateAgreeOfTerm(
+    @Req() req: RequestWithUserInterface,
+    @Body() updateAgreeOfTermDto: CreateAgreeOfTermDto,
+  ) {
+    return await this.agreeOfTermService.updateAgreeOfTerm(
+      req.user,
+      updateAgreeOfTermDto,
     );
   }
 }

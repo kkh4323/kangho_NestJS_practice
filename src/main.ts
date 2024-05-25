@@ -11,6 +11,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService: ConfigService = app.get(ConfigService);
 
+  app.setGlobalPrefix('api');
   // swaggerSetup
   // const config = new DocumentBuilder()
   //   .setTitle('kangho api')
