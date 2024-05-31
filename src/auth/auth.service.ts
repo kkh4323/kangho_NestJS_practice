@@ -153,4 +153,13 @@ export class AuthService {
     }
     return OTP;
   }
+
+  async setCurrentRefreshTokenToRedis(refreshToken: string, userId: string) {
+    const saltValue = await bcrypt.genSalt(10);
+    const currentHashedRefreshToken = await bcrypt.hash(
+      refreshToken,
+      saltValue,
+    );
+    await this.cacheManager.set(userId, currentHashedRefreshToken);
+  }
 }

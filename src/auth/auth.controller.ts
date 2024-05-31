@@ -65,6 +65,7 @@ export class AuthController {
     );
     const { cookie: refreshTokenCookie, token: refreshToken } =
       await this.authService.genarateRefreshToken(user.id);
+    await this.authService.setCurrentRefreshTokenToRedis(refreshToken, user.id);
     // return { user, accessToken, refreshToken };
     response.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
     response.send(user);
