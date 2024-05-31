@@ -107,6 +107,13 @@ export class AuthService {
     return { cookie, token };
   }
 
+  public getCookiesForLogout(): string[] {
+    return [
+      `Authentication=; HttpOnly; Path=/; Max-Age=0`,
+      `Refresh=; HttpOnly; Path=/; Max-Age=0`,
+    ];
+  }
+
   async changePassword(user: User, newPassword: string) {
     const existedUser = await this.userService.getUserByEmail(user.email);
     if (existedUser.provider !== Provider.LOCAL) {

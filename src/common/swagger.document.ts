@@ -7,7 +7,7 @@ export class BaseAPIDocument {
     return this.builder
       .setTitle('kangho api')
       .setDescription('kangho api description')
-      .addBearerAuth()
+      .addCookieAuth('Authentication')
       .setVersion('1.0')
       .addTag('kangho')
       .build();

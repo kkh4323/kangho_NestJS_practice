@@ -75,6 +75,13 @@ export class AuthController {
   //
   // }
 
+  @UseGuards(JwtAuthGuard)
+  @Post('/logout')
+  async logout(@Req() req: RequestWithUserInterface) {
+    req.res.setHeader('Set-Cookie', this.authService.getCookiesForLogout());
+    return true;
+  }
+
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
