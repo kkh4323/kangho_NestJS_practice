@@ -4,6 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import * as gravatar from 'gravatar';
 import { Provider } from './provider.enum';
 import { AgreeOfTerm } from '../../agree-of-term/entities/agree-of-term.entity';
+import { UserInfo } from '../../user-info/entities/user-info.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -39,6 +40,13 @@ export class User extends BaseEntity {
   })
   @JoinColumn()
   public agreeOfTerm: AgreeOfTerm;
+
+  @OneToOne(() => UserInfo, {
+    eager: true,
+    cascade: true,
+  })
+  @JoinColumn()
+  public userInfo: UserInfo;
 
   @BeforeInsert()
   async beforeSaveFunction() {
