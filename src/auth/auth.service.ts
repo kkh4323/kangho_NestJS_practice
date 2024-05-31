@@ -162,4 +162,8 @@ export class AuthService {
     );
     await this.cacheManager.set(userId, currentHashedRefreshToken);
   }
+
+  async deleteRefreshTokenInRedis(userId: string) {
+    await this.cacheManager.del(userId);
+  }
 }

@@ -23,6 +23,7 @@ import { VerifyEmailDto } from '../user/dto/verify-email.dto';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { EmailUserDto } from '../user/dto/email-user.dto';
 import { Response } from 'express';
+import { RefreshTokenGuard } from './guardies/refresh-token.guard';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -71,15 +72,21 @@ export class AuthController {
     response.send(user);
   }
 
-  // @Get('/refresh')
-  // async refresh() {
-  //
-  // }
+  @UseGuards(RefreshTokenGuard)
+  @Get('/refresh')
+  async refresh(@Req() req: RequestWithUserInterface) {
+    const accessTokenCookie = await this.authService.generateAccessToken(
+      req.user.id,
+    );
+    req.res.setHeader('Set-Cookie', accessTokenCookie);
+    return req.user;
+  }
 
   @UseGuards(JwtAuthGuard)
   @Post('/logout')
   async logout(@Req() req: RequestWithUserInterface) {
     req.res.setHeader('Set-Cookie', this.authService.getCookiesForLogout());
+    await this.authService.deleteRefreshTokenInRedis(req.user.id);
     return true;
   }
 

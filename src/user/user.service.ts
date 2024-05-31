@@ -1,20 +1,18 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
+import { Cache } from 'cache-manager'; // 직접 추가해줘야 함.
+import { CACHE_MANAGER } from '@nestjs/common/cache';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   // 전체 유저 정보 가져오는 로직
@@ -59,5 +57,18 @@ export class UserService {
     const saltValue = await bcrypt.genSalt(10);
     existedUser.password = await bcrypt.hash(newPassword, saltValue);
     return await this.userRepository.save(existedUser);
+  }
+
+  // RefreshToken 매칭
+  async getUserIfRefreshTokenMatches(refreshToken: string, userId: string) {
+    const user = await this.getUserById(userId);
+    const getUserIdFromRedis = await this.cacheManager.get(userId);
+    const isRefreshTokenMatching = await bcrypt.compare(
+      refreshToken,
+      getUserIdFromRedis,
+    );
+    if (isRefreshTokenMatching) {
+      return user;
+    }
   }
 }
