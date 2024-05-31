@@ -3,9 +3,10 @@ import { AgreeOfTermService } from './agree-of-term.service';
 import { CreateAgreeOfTermDto } from './dto/create-agree-of-term.dto';
 import { RequestWithUserInterface } from '../auth/interfaces/requestWithUser.interface';
 import { JwtAuthGuard } from '../auth/guardies/jwt-auth.guard';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('agree-of-term')
+@ApiTags('agree-of-term')
 export class AgreeOfTermController {
   constructor(private readonly agreeOfTermService: AgreeOfTermService) {}
 

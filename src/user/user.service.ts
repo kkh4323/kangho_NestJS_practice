@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -11,6 +16,11 @@ export class UserService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
+
+  // 전체 유저 정보 가져오는 로직
+  async getUserDatas() {
+    return await this.userRepository.find({});
+  }
 
   // 유저 생성하는 로직
   async createUser(createUserDto: CreateUserDto) {

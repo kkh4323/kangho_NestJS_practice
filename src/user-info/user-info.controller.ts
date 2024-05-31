@@ -3,9 +3,10 @@ import { UserInfoService } from './user-info.service';
 import { JwtAuthGuard } from '../auth/guardies/jwt-auth.guard';
 import { RequestWithUserInterface } from '../auth/interfaces/requestWithUser.interface';
 import { CreateUserInfoDto } from './dto/create-user-info.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('user-info')
+@ApiTags('user-info')
 export class UserInfoController {
   constructor(private readonly userInfoService: UserInfoService) {}
 

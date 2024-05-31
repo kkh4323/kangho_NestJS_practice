@@ -19,10 +19,11 @@ import { GoogleAuthGuard } from './guardies/google-auth.guard';
 import { KakaoAuthGuard } from './guardies/kakao-auth.guard';
 import { NaverAuthGuard } from './guardies/naver-auth.guard';
 import { VerifyEmailDto } from '../user/dto/verify-email.dto';
-import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { EmailUserDto } from '../user/dto/email-user.dto';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
