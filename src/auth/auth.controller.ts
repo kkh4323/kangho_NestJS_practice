@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -21,6 +22,7 @@ import { NaverAuthGuard } from './guardies/naver-auth.guard';
 import { VerifyEmailDto } from '../user/dto/verify-email.dto';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { EmailUserDto } from '../user/dto/email-user.dto';
+import { Response } from 'express';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -53,11 +55,25 @@ export class AuthController {
   // }
   @UseGuards(LocalAuthGuard)
   @ApiBody({ type: LoginUserDto })
-  async loggedInUser(@Req() req: RequestWithUserInterface) {
+  async loggedInUser(
+    @Req() req: RequestWithUserInterface,
+    @Res() response: Response,
+  ) {
     const user = await req.user;
-    const token = await this.authService.generateAccessToken(user.id);
-    return { user, token };
+    const accessTokenCookie = await this.authService.generateAccessToken(
+      user.id,
+    );
+    const { cookie: refreshTokenCookie, token: refreshToken } =
+      await this.authService.genarateRefreshToken(user.id);
+    // return { user, accessToken, refreshToken };
+    response.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
+    response.send(user);
   }
+
+  // @Get('/refresh')
+  // async refresh() {
+  //
+  // }
 
   @Get()
   @UseGuards(JwtAuthGuard)
