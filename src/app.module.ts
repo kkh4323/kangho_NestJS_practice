@@ -12,6 +12,7 @@ import { EmailModule } from '@email/email.module';
 import { RedisModule } from '@redis/redis.module';
 import { UserModule } from '@user/user.module';
 import { UserInfoModule } from '@user-info/user-info.module';
+import { MinioClientModule } from './minio-client/minio-client.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UserInfoModule } from '@user-info/user-info.module';
     RedisModule,
     AgreeOfTermModule,
     UserInfoModule,
+    MinioClientModule,
   ],
   controllers: [AppController],
   providers: [AppService],
