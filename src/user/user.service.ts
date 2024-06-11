@@ -16,7 +16,7 @@ export class UserService {
   ) {}
 
   // 전체 유저 정보 가져오는 로직
-  async getUserDatas() {
+  async getUserDataList() {
     return await this.userRepository.find({});
   }
 

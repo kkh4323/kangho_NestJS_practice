@@ -12,9 +12,8 @@ export class UserController {
   // 전체 유저 정보 가져오는 api
   @Get()
   @UseGuards(RoleGuard(Role.ADMIN))
-  @UseGuards()
-  async getUserDatas() {
-    return await this.userService.getUserDatas();
+  async getUserDataList() {
+    return await this.userService.getUserDataList();
   }
 
   // 상세 유저 정보 가져오는 api
