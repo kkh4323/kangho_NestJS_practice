@@ -7,9 +7,9 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
-import { BlogService } from './blog.service';
-import { CreateBlogDto } from './dto/create-blog.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { BlogService } from '@blog/blog.service';
+import { CreateBlogDto } from '@blog/dto/create-blog.dto';
 
 @Controller('blog')
 @ApiTags('blog')

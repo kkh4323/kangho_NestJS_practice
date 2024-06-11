@@ -1,4 +1,3 @@
-import { Provider } from '../entities/provider.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
@@ -8,6 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Provider } from '@user/entities/provider.enum';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'kangho' })

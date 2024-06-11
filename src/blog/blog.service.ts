@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateBlogDto } from './dto/create-blog.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Blog } from './entities/blog.entity';
 import { Repository } from 'typeorm';
+import { Blog } from '@blog/entities/blog.entity';
+import { CreateBlogDto } from '@blog/dto/create-blog.dto';
 
 @Injectable()
 export class BlogService {

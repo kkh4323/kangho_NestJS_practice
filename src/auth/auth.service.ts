@@ -5,20 +5,20 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { UserService } from '../user/user.service';
-import { CreateUserDto } from '../user/dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
-import { LoginUserDto } from '../user/dto/login-user.dto';
-import { EmailService } from '../email/email.service';
-import { TokenPayloadInterface } from './interfaces/tokenPayload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { Provider } from '../user/entities/provider.enum';
-import { User } from '../user/entities/user.entity';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/common/cache';
-import { VerifyEmailDto } from '../user/dto/verify-email.dto';
-import { EmailUserDto } from '../user/dto/email-user.dto';
+import { UserService } from '@user/user.service';
+import { EmailService } from '@email/email.service';
+import { CreateUserDto } from '@user/dto/create-user.dto';
+import { LoginUserDto } from '@user/dto/login-user.dto';
+import { EmailUserDto } from '@user/dto/email-user.dto';
+import { VerifyEmailDto } from '@user/dto/verify-email.dto';
+import { Provider } from '@user/entities/provider.enum';
+import { TokenPayloadInterface } from '@auth/interfaces/tokenPayload.interface';
+import { User } from '@user/entities/user.entity';
 
 @Injectable()
 export class AuthService {

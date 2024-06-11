@@ -2,8 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-naver-v2';
 import { ConfigService } from '@nestjs/config';
-import { UserService } from '../../user/user.service';
 import { VerifyCallback } from 'passport-google-oauth2';
+import { UserService } from '@user/user.service';
 
 @Injectable()
 export class NaverAuthStrategy extends PassportStrategy(Strategy) {

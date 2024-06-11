@@ -1,8 +1,8 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import { UserService } from './user.service';
-import { RoleGuard } from '../auth/guardies/role.guard';
-import { Role } from './entities/role.enum';
 import { ApiTags } from '@nestjs/swagger';
+import { UserService } from '@user/user.service';
+import { RoleGuard } from '@auth/guardies/role.guard';
+import { Role } from '@user/entities/role.enum';
 
 @Controller('user')
 @ApiTags('user')

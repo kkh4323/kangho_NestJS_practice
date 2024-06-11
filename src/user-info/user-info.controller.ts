@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Put, Req, UseGuards } from '@nestjs/common';
-import { UserInfoService } from './user-info.service';
-import { JwtAuthGuard } from '../auth/guardies/jwt-auth.guard';
-import { RequestWithUserInterface } from '../auth/interfaces/requestWithUser.interface';
-import { CreateUserInfoDto } from './dto/create-user-info.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '@auth/guardies/jwt-auth.guard';
+import { RequestWithUserInterface } from '@auth/interfaces/requestWithUser.interface';
+import { CreateUserInfoDto } from '@user-info/dto/create-user-info.dto';
+import { UserInfoService } from '@user-info/user-info.service';
 
 @Controller('user-info')
 @ApiTags('user-info')

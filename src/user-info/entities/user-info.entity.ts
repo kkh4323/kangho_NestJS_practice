@@ -1,12 +1,11 @@
 import {
   BeforeInsert,
-  BeforeUpdate,
   Column,
   Entity,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '../../user/entities/user.entity';
+import { User } from '@user/entities/user.entity';
 
 @Entity()
 export class UserInfo {

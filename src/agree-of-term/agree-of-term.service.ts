@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AgreeOfTerm } from './entities/agree-of-term.entity';
 import { Repository } from 'typeorm';
-import { User } from '../user/entities/user.entity';
-import { CreateAgreeOfTermDto } from './dto/create-agree-of-term.dto';
-import { UserService } from '../user/user.service';
+import { AgreeOfTerm } from '@agree-of-term/entities/agree-of-term.entity';
+import { UserService } from '@user/user.service';
+import { CreateAgreeOfTermDto } from '@agree-of-term/dto/create-agree-of-term.dto';
+import { User } from '@user/entities/user.entity';
 
 @Injectable()
 export class AgreeOfTermService {

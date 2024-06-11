@@ -10,20 +10,20 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { CreateUserDto } from '../user/dto/create-user.dto';
-import { LoginUserDto } from '../user/dto/login-user.dto';
-import { LocalAuthGuard } from './guardies/local-auth.guard';
-import { RequestWithUserInterface } from './interfaces/requestWithUser.interface';
-import { JwtAuthGuard } from './guardies/jwt-auth.guard';
-import { GoogleAuthGuard } from './guardies/google-auth.guard';
-import { KakaoAuthGuard } from './guardies/kakao-auth.guard';
-import { NaverAuthGuard } from './guardies/naver-auth.guard';
-import { VerifyEmailDto } from '../user/dto/verify-email.dto';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
-import { EmailUserDto } from '../user/dto/email-user.dto';
 import { Response } from 'express';
-import { RefreshTokenGuard } from './guardies/refresh-token.guard';
+import { AuthService } from '@auth/auth.service';
+import { CreateUserDto } from '@user/dto/create-user.dto';
+import { EmailUserDto } from '@user/dto/email-user.dto';
+import { VerifyEmailDto } from '@user/dto/verify-email.dto';
+import { LoginUserDto } from '@user/dto/login-user.dto';
+import { RequestWithUserInterface } from '@auth/interfaces/requestWithUser.interface';
+import { LocalAuthGuard } from '@auth/guardies/local-auth.guard';
+import { RefreshTokenGuard } from '@auth/guardies/refresh-token.guard';
+import { JwtAuthGuard } from '@auth/guardies/jwt-auth.guard';
+import { GoogleAuthGuard } from '@auth/guardies/google-auth.guard';
+import { KakaoAuthGuard } from '@auth/guardies/kakao-auth.guard';
+import { NaverAuthGuard } from '@auth/guardies/naver-auth.guard';
 
 @Controller('auth')
 @ApiTags('auth')

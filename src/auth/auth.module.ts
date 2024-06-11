@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UserModule } from '../user/user.module';
-import { EmailModule } from '../email/email.module';
-import { LocalAuthStrategy } from './strategies/local-auth.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
-import { JwtAuthStrategy } from './strategies/jwt-auth.strategy';
-import { GoogleAuthStrategy } from './strategies/google-auth.strategy';
-import { KakaoAuthStrategy } from './strategies/kakao-auth.strategy';
-import { NaverAuthStrategy } from './strategies/naver-auth.strategy';
-import { RefreshTokenStrategy } from './strategies/refresh-token-strategy';
+import { UserModule } from '@user/user.module';
+import { EmailModule } from '@email/email.module';
+import { AuthController } from '@auth/auth.controller';
+import { AuthService } from '@auth/auth.service';
+import { LocalAuthStrategy } from '@auth/strategies/local-auth.strategy';
+import { JwtAuthStrategy } from '@auth/strategies/jwt-auth.strategy';
+import { GoogleAuthStrategy } from '@auth/strategies/google-auth.strategy';
+import { KakaoAuthStrategy } from '@auth/strategies/kakao-auth.strategy';
+import { NaverAuthStrategy } from '@auth/strategies/naver-auth.strategy';
+import { RefreshTokenStrategy } from '@auth/strategies/refresh-token-strategy';
 
 @Module({
   imports: [UserModule, EmailModule, JwtModule.register({}), ConfigModule],

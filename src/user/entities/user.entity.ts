@@ -1,11 +1,11 @@
 import { BeforeInsert, Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { BaseEntity } from '../../common/base.entity';
 import * as bcrypt from 'bcryptjs';
 import * as gravatar from 'gravatar';
-import { Provider } from './provider.enum';
-import { AgreeOfTerm } from '../../agree-of-term/entities/agree-of-term.entity';
-import { UserInfo } from '../../user-info/entities/user-info.entity';
-import { Role } from './role.enum';
+import { BaseEntity } from '@common/base.entity';
+import { Provider } from '@user/entities/provider.enum';
+import { Role } from '@user/entities/role.enum';
+import { AgreeOfTerm } from '@agree-of-term/entities/agree-of-term.entity';
+import { UserInfo } from '@user-info/entities/user-info.entity';
 
 @Entity()
 export class User extends BaseEntity {
