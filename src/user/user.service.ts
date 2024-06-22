@@ -28,6 +28,8 @@ export class UserService {
     // return await this.userRepository.find({});
     const queryBuilder = this.userRepository.createQueryBuilder('user');
     queryBuilder
+      .leftJoinAndSelect('user.agreeOfTerm', 'agreeOfTerm')
+      .leftJoinAndSelect('user.userInfo', 'userInfo')
       .orderBy('user.email', pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
