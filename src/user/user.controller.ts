@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Put,
+  Query,
   Req,
   UploadedFile,
   UseGuards,
@@ -18,6 +19,9 @@ import { RequestWithUserInterface } from '@auth/interfaces/requestWithUser.inter
 import { JwtAuthGuard } from '@auth/guardies/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BufferedFile } from '@root/minio-client/file.model';
+import { PageOptionsDto } from '@common/dtos/page-options.dto';
+import { PageDto } from '@common/dtos/page.dto';
+import { User } from '@user/entities/user.entity';
 
 @Controller('user')
 @ApiTags('user')
@@ -27,8 +31,10 @@ export class UserController {
   // 전체 유저 정보 가져오는 api
   @Get()
   @UseGuards(RoleGuard(Role.ADMIN))
-  async getUserDataList() {
-    return await this.userService.getUserDataList();
+  async getUserDataList(
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<User>> {
+    return await this.userService.getUserDataList(pageOptionsDto);
   }
 
   // 상세 유저 정보 가져오는 api

@@ -8,6 +8,9 @@ import { User } from '@user/entities/user.entity';
 import { CreateUserDto } from '@user/dto/create-user.dto';
 import { BufferedFile } from '@root/minio-client/file.model';
 import { MinioClientService } from '@root/minio-client/minio-client.service';
+import { PageOptionsDto } from '@common/dtos/page-options.dto';
+import { PageDto } from '@common/dtos/page.dto';
+import { PageMetaDto } from '@common/dtos/page-meta.dto';
 
 @Injectable()
 export class UserService {
@@ -19,8 +22,22 @@ export class UserService {
   ) {}
 
   // 전체 유저 정보 가져오는 로직
-  async getUserDataList() {
-    return await this.userRepository.find({});
+  async getUserDataList(
+    pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<User>> {
+    // return await this.userRepository.find({});
+    const queryBuilder = this.userRepository.createQueryBuilder('user');
+    queryBuilder
+      .orderBy('user.email', pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take);
+
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+    return new PageDto(entities, pageMetaDto);
   }
 
   // 유저 생성하는 로직

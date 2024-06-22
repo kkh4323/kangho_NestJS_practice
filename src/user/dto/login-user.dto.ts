@@ -12,7 +12,7 @@ export class LoginUserDto {
   @IsEmail()
   email: string;
 
-  @ApiProperty({ example: '1234' })
+  @ApiProperty({ example: 'asdf123!' })
   @IsString()
   @MinLength(7)
   @MaxLength(15)
