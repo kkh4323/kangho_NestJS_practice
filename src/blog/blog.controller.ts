@@ -6,10 +6,14 @@ import {
   Param,
   Delete,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BlogService } from '@blog/blog.service';
 import { CreateBlogDto } from '@blog/dto/create-blog.dto';
+import { PageOptionsDto } from '@common/dtos/page-options.dto';
+import { Blog } from '@blog/entities/blog.entity';
+import { PageDto } from '@common/dtos/page.dto';
 
 @Controller('blog')
 @ApiTags('blog')
@@ -18,8 +22,10 @@ export class BlogController {
 
   // 블로그 전체 데이터 가져오기
   @Get()
-  async getBlogs() {
-    return await this.blogService.getBlogDatas();
+  async getBlogs(
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<Blog>> {
+    return await this.blogService.getBlogDatas(pageOptionsDto);
   }
 
   // 블로그 상세 데이터 가져오기

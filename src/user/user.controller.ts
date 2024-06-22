@@ -44,6 +44,19 @@ export class UserController {
   @UseInterceptors(FileInterceptor('image'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateUserDto })
+  @ApiBody({
+    description: 'A single image file with additional member data',
+    schema: {
+      type: 'object',
+      properties: {
+        image: {
+          type: 'string',
+          format: 'binary',
+          description: 'Profile image file',
+        },
+      },
+    },
+  })
   async updateUserById(
     @Req() req: RequestWithUserInterface,
     @UploadedFile() profileImg?: BufferedFile,
