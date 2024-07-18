@@ -81,6 +81,16 @@ export class UserService {
     return await this.userRepository.save(existedUser);
   }
 
+  // 패스워드 변경
+  async updatePassword(email: string, newPassword: string) {
+    const user = await this.getUserByEmail(email);
+    const saltValue = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, saltValue);
+    await this.userRepository.update(user.id, {
+      password: hashedPassword,
+    });
+  }
+
   // RefreshToken 매칭
   async getUserIfRefreshTokenMatches(refreshToken: string, userId: string) {
     const user = await this.getUserById(userId);

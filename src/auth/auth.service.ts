@@ -181,6 +181,10 @@ export class AuthService {
     const user = await this.userService.getUserByEmail(email);
 
     // password 변경하는 로직
+    // return await this.userService.updatePassword(
+    //   email,
+    //   changePasswordUserDto.newPassword,
+    // );
     return await this.changePassword(user, changePasswordUserDto.newPassword);
   }
 
