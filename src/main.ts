@@ -13,6 +13,7 @@ async function bootstrap() {
   const configService: ConfigService = app.get(ConfigService);
 
   app.setGlobalPrefix('api');
+  app.enableCors();
   app.use(cookieParser());
   // swaggerSetup
   // const config = new DocumentBuilder()

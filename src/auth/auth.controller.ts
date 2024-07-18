@@ -24,6 +24,7 @@ import { JwtAuthGuard } from '@auth/guardies/jwt-auth.guard';
 import { GoogleAuthGuard } from '@auth/guardies/google-auth.guard';
 import { KakaoAuthGuard } from '@auth/guardies/kakao-auth.guard';
 import { NaverAuthGuard } from '@auth/guardies/naver-auth.guard';
+import { ChangePasswordUserDto } from '@user/dto/changePassword-user.dto';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -97,9 +98,21 @@ export class AuthController {
     return req.user;
   }
 
-  @Put()
+  @Post('/find/password')
+  async findPassword(@Body() emailUserDto: EmailUserDto) {
+    return await this.authService.findPasswordSendEmail(emailUserDto.email);
+  }
+
+  @Put('/change/password/before')
+  async changePasswordBeforeLogin(
+    @Body() changePasswordUserDto: ChangePasswordUserDto,
+  ) {
+    return await this.authService.changePasswordByToken(changePasswordUserDto);
+  }
+
+  @Put('/change/password/after')
   @UseGuards(JwtAuthGuard)
-  async changePassword(
+  async changePasswordAfterLogin(
     @Req() req: RequestWithUserInterface,
     @Body('newPassword') newPassword: string,
   ) {

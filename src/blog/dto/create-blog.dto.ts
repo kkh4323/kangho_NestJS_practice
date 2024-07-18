@@ -22,4 +22,8 @@ export class CreateBlogDto {
   @IsString()
   @IsNotEmpty()
   category: string;
+
+  @ApiProperty({ example: 'http://localhost' })
+  @IsString()
+  img: string;
 }

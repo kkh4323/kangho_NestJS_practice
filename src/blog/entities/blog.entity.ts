@@ -17,4 +17,7 @@ export class Blog extends BaseEntity {
 
   @Column()
   public category: string;
+
+  @Column()
+  public img: string;
 }

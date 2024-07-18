@@ -19,6 +19,8 @@ import { VerifyEmailDto } from '@user/dto/verify-email.dto';
 import { Provider } from '@user/entities/provider.enum';
 import { TokenPayloadInterface } from '@auth/interfaces/tokenPayload.interface';
 import { User } from '@user/entities/user.entity';
+import { jwtDecode } from 'jwt-decode';
+import { ChangePasswordUserDto } from '@user/dto/changePassword-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -72,7 +74,6 @@ export class AuthService {
   // 로그인
   async loginUser(loginUserDto: LoginUserDto) {
     const user = await this.userService.getUserByEmail(loginUserDto.email);
-    console.log(loginUserDto);
     const isPasswordMatched = await bcrypt.compare(
       loginUserDto.password,
       user.password,
@@ -165,5 +166,48 @@ export class AuthService {
 
   async deleteRefreshTokenInRedis(userId: string) {
     await this.cacheManager.del(userId);
+  }
+
+  async changePasswordByToken(changePasswordUserDto: ChangePasswordUserDto) {
+    // const decodeToken = await jwtDecode(token);
+    // jwtDecode는 토큰 생성 시 설정했던 만료 시간을 확인해주지 못 함.
+    const { email } = await this.jwtService.verify(
+      changePasswordUserDto.token,
+      {
+        secret: this.configService.get('FIND_PASSWORD_TOKEN_SECURITY'),
+      },
+    );
+    // 이메일이 DB에 있는지 확인하는 로직
+    const user = await this.userService.getUserByEmail(email);
+
+    // password 변경하는 로직
+    return await this.changePassword(user, changePasswordUserDto.newPassword);
+  }
+
+  async findPasswordSendEmail(email: string) {
+    const payload: any = { email };
+    const user = await this.userService.getUserByEmail(email);
+
+    if (user.provider !== Provider.LOCAL) {
+      throw new HttpException(
+        'you can change the password for the part you registered as a social login',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get('FIND_PASSWORD_TOKEN_SECURITY'),
+      expiresIn: this.configService.get('FIND_PASSWORD_TOKEN_EXPIRATION_TIME'),
+    });
+
+    const url = `${this.configService.get('EMAIL_BASE_URL')}/change/password?token=${token}`;
+
+    await this.emailService.sendMail({
+      to: email,
+      subject: 'kangho find password',
+      text: `비밀번호 찾기 ${url}`,
+    });
+
+    return 'sent email and please check your email';
   }
 }

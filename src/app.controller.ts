@@ -28,7 +28,7 @@ export class AppController {
         this.memoryHealthIndicator.checkRSS('memory RSS', 300 * 1024 * 1024),
       () =>
         this.diskHealthIndicator.checkStorage('disk health', {
-          thresholdPercent: 0.9,
+          thresholdPercent: 1,
           path: '/',
         }),
     ]);

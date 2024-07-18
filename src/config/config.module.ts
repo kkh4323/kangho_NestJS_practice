@@ -22,6 +22,11 @@ import * as Joi from '@hapi/joi';
         REFRESH_TOKEN_SECURITY: Joi.string().required(),
         REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().required(),
 
+        FIND_PASSWORD_TOKEN_SECURITY: Joi.string().required(),
+        FIND_PASSWORD_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+
+        EMAIL_BASE_URL: Joi.string().required(),
+
         GOOGLE_AUTH_CLIENT_ID: Joi.string().required(),
         GOOGLE_AUTH_CLIENT_SECRET: Joi.string().required(),
         GOOGLE_AUTH_CALLBACK_URL: Joi.string().required(),

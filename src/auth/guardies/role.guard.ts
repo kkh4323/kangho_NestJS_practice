@@ -10,7 +10,6 @@ export const RoleGuard = (role: Role): Type<CanActivate> => {
 
       const req = context.switchToHttp().getRequest<RequestWithUserInterface>();
       const user = req.user;
-      console.log('*******************', user);
       return user?.roles.includes(role);
     }
   }

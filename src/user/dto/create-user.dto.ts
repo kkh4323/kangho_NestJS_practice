@@ -35,11 +35,11 @@ export class CreateUserDto {
   @MaxLength(10)
   phone?: string;
 
-  @ApiProperty({ example: Provider.LOCAL })
+  // @ApiProperty({ example: Provider.LOCAL })
   @IsString()
   provider?: Provider;
 
-  @ApiProperty({ example: '' })
+  // @ApiProperty({ example: '' })
   @IsString()
   profileImg?: string;
 }
