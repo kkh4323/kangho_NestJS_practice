@@ -62,25 +62,23 @@ export class AuthController {
     @Res() response: Response,
   ) {
     const user = await req.user;
-    const accessTokenCookie = await this.authService.generateAccessToken(
-      user.id,
-    );
-    const { cookie: refreshTokenCookie, token: refreshToken } =
+    const { accessToken, accessCookie } =
+      await this.authService.generateAccessToken(user.id);
+    const { refreshToken, refreshCookie } =
       await this.authService.genarateRefreshToken(user.id);
     await this.authService.setCurrentRefreshTokenToRedis(refreshToken, user.id);
     // return { user, accessToken, refreshToken };
-    response.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
-    response.send(user);
+    response.setHeader('Set-Cookie', [accessCookie, refreshCookie]);
+    response.send({ user, accessToken });
   }
 
   @UseGuards(RefreshTokenGuard)
   @Get('/refresh')
   async refresh(@Req() req: RequestWithUserInterface) {
-    const accessTokenCookie = await this.authService.generateAccessToken(
-      req.user.id,
-    );
-    req.res.setHeader('Set-Cookie', accessTokenCookie);
-    return req.user;
+    const { accessToken, accessCookie } =
+      await this.authService.generateAccessToken(req.user.id);
+    req.res.setHeader('Set-Cookie', accessCookie);
+    return { user: req.user, accessToken };
   }
 
   @UseGuards(JwtAuthGuard)

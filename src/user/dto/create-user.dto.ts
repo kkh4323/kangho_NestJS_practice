@@ -31,8 +31,6 @@ export class CreateUserDto {
 
   @ApiProperty({ example: '0100000000' })
   @IsString()
-  @MinLength(9)
-  @MaxLength(10)
   phone?: string;
 
   // @ApiProperty({ example: Provider.LOCAL })

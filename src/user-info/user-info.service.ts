@@ -25,7 +25,7 @@ export class UserInfoService {
 
   async updateUserInfo(user: User, updateUserInfoDto: CreateUserInfoDto) {
     const existedUser = await this.userService.getUserByEmail(user.email);
-    const numStr = await updateUserInfoDto.birthday.toString();
+    const numStr = await updateUserInfoDto.birth.toString();
     const year = parseInt(numStr.substring(0, 4));
     const month = parseInt(numStr.substring(4, 6)) - 1;
     const day = parseInt(numStr.substring(6, 8));

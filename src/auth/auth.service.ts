@@ -84,28 +84,32 @@ export class AuthService {
     return user;
   }
 
-  public generateAccessToken(userId: string) {
+  public generateAccessToken(userId: string): {
+    accessToken: string;
+    accessCookie: string;
+  } {
     const payload: TokenPayloadInterface = { userId };
-    const token = this.jwtService.sign(payload, {
+    const accessToken = this.jwtService.sign(payload, {
       secret: this.configService.get('ACCESS_TOKEN_SECURITY'),
       expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRATION_TIME'),
     });
     // return token;
-    return `Authentication=${token}; Path=/; Max-Age=${this.configService.get('ACCESS_TOKEN_EXPIRATION_TIME')}`;
+    const accessCookie = `Authentication=${accessToken}; Path=/; Max-Age=${this.configService.get('ACCESS_TOKEN_EXPIRATION_TIME')}`;
+    return { accessToken, accessCookie };
   }
 
   public genarateRefreshToken(userId: string): {
-    token: string;
-    cookie: string;
+    refreshToken: string;
+    refreshCookie: string;
   } {
     const payload: TokenPayloadInterface = { userId };
-    const token = this.jwtService.sign(payload, {
+    const refreshToken = this.jwtService.sign(payload, {
       secret: this.configService.get('REFRESH_TOKEN_SECURITY'),
       expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRATION_TIME'),
     });
     // return token;
-    const cookie = `Refresh=${token}; Path=/; Max-Age=${this.configService.get('REFRESH_TOKEN_EXPIRATION_TIME')}`;
-    return { cookie, token };
+    const refreshCookie = `Refresh=${refreshToken}; Path=/; Max-Age=${this.configService.get('REFRESH_TOKEN_EXPIRATION_TIME')}`;
+    return { refreshToken, refreshCookie };
   }
 
   public getCookiesForLogout(): string[] {

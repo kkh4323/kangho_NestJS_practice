@@ -18,13 +18,14 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy) {
         (req: Request) => {
           return req?.cookies?.Authentication;
         },
-        ExtractJwt.fromAuthHeaderAsBearerToken,
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       secretOrKey: configService.get('ACCESS_TOKEN_SECURITY'),
     });
   }
 
   async validate(payload: TokenPayloadInterface) {
+    console.log(payload);
     return await this.userService.getUserById(payload.userId);
   }
 }
