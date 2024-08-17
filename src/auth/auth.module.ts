@@ -11,6 +11,7 @@ import { GoogleAuthStrategy } from '@auth/strategies/google-auth.strategy';
 import { KakaoAuthStrategy } from '@auth/strategies/kakao-auth.strategy';
 import { NaverAuthStrategy } from '@auth/strategies/naver-auth.strategy';
 import { RefreshTokenStrategy } from '@auth/strategies/refresh-token-strategy';
+import { AgreeOfTermModule } from '@agree-of-term/agree-of-term.module';
 
 @Module({
   imports: [UserModule, EmailModule, JwtModule.register({}), ConfigModule],

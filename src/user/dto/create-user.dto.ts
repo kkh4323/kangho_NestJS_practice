@@ -8,6 +8,8 @@ import {
   MinLength,
 } from 'class-validator';
 import { Provider } from '@user/entities/provider.enum';
+import { AgreeOfTerm } from '@agree-of-term/entities/agree-of-term.entity';
+import { CreateAgreeOfTermDto } from '@agree-of-term/dto/create-agree-of-term.dto';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'kangho' })
@@ -40,4 +42,9 @@ export class CreateUserDto {
   // @ApiProperty({ example: '' })
   @IsString()
   profileImg?: string;
+
+  @ApiProperty({
+    type: CreateAgreeOfTermDto,
+  })
+  agreeOfTerm?: AgreeOfTerm;
 }

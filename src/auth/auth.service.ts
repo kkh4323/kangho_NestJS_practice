@@ -19,8 +19,9 @@ import { VerifyEmailDto } from '@user/dto/verify-email.dto';
 import { Provider } from '@user/entities/provider.enum';
 import { TokenPayloadInterface } from '@auth/interfaces/tokenPayload.interface';
 import { User } from '@user/entities/user.entity';
-import { jwtDecode } from 'jwt-decode';
 import { ChangePasswordUserDto } from '@user/dto/changePassword-user.dto';
+import { AgreeOfTermService } from '@agree-of-term/agree-of-term.service';
+import { CreateAgreeOfTermDto } from '@agree-of-term/dto/create-agree-of-term.dto';
 
 @Injectable()
 export class AuthService {

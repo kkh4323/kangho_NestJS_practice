@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsEnum, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 import { Gender } from '@user-info/entities/gender.enum';
 import { BloodType } from '@user-info/entities/bloodType.enum';
 import { Drinking } from '@user-info/entities/drinking.enum';
 import { BodyType } from '@user-info/entities/bodyType.enum';
-import { Body } from '@nestjs/common';
+import { MBTI } from '@user-info/entities/mbti.enum';
+import { Graduated } from '@user-info/entities/graduated.enum';
 
 export class CreateUserInfoDto {
   @ApiProperty({ example: 'Korea of Republic' })
@@ -37,9 +38,12 @@ export class CreateUserInfoDto {
   })
   bloodType: BloodType;
 
-  @ApiProperty({ example: 'ENFP' })
-  @IsString()
-  mbtiType: string;
+  @ApiProperty({
+    description: 'MBTI',
+    default: MBTI.ENFP,
+    enum: MBTI,
+  })
+  mbtiType: MBTI;
 
   @ApiProperty({ example: 'Namyangju-si' })
   @IsString()
@@ -75,7 +79,10 @@ export class CreateUserInfoDto {
   @IsString()
   selfIntroduce: string;
 
-  @ApiProperty({ example: 'HUFS' })
-  @IsString()
-  graduated: string;
+  @ApiProperty({
+    description: 'Graduated',
+    default: Graduated.College,
+    enum: Graduated,
+  })
+  graduated: Graduated;
 }

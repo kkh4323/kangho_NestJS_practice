@@ -17,7 +17,6 @@ export class UserInfoController {
     @Req() req: RequestWithUserInterface,
     @Body() createUserInfoDto: CreateUserInfoDto,
   ) {
-    console.log(typeof createUserInfoDto.bloodType);
     return await this.userInfoService.createUserInfo(
       req.user,
       createUserInfoDto,

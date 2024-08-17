@@ -7,7 +7,7 @@ export class AgreeOfTerm {
   public id: string;
 
   @OneToOne(() => User, (user: User) => user.agreeOfTerm)
-  public user: User;
+  public user?: User;
 
   @Column({ default: false })
   public overTwenty: boolean;

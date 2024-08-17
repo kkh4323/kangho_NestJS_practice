@@ -5,6 +5,8 @@ import { Gender } from '@user-info/entities/gender.enum';
 import { BloodType } from '@user-info/entities/bloodType.enum';
 import { Drinking } from '@user-info/entities/drinking.enum';
 import { BodyType } from '@user-info/entities/bodyType.enum';
+import { MBTI } from '@user-info/entities/mbti.enum';
+import { Graduated } from '@user-info/entities/graduated.enum';
 
 @Entity()
 export class UserInfo extends BaseEntity {
@@ -37,8 +39,12 @@ export class UserInfo extends BaseEntity {
   })
   public bloodType: BloodType;
 
-  @Column()
-  public mbtiType: string;
+  @Column({
+    type: 'enum',
+    enum: MBTI,
+    default: MBTI.ENFP,
+  })
+  public mbtiType: MBTI;
 
   @Column()
   public addressOfHome: string;
@@ -69,8 +75,12 @@ export class UserInfo extends BaseEntity {
   @Column()
   public selfIntroduce: string;
 
-  @Column()
-  public graduated: string;
+  @Column({
+    type: 'enum',
+    enum: Graduated,
+    default: Graduated.College,
+  })
+  public graduated: Graduated;
 
   @BeforeInsert()
   async beforeSaveFunction() {

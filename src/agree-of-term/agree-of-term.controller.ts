@@ -13,7 +13,6 @@ export class AgreeOfTermController {
   // 이용약관 등록
   @Post()
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
   async addAgreeOfTerm(
     @Req() req: RequestWithUserInterface,
     @Body() createAgreeOfTermDto: CreateAgreeOfTermDto,
