@@ -60,6 +60,20 @@ export class UserController {
           format: 'binary',
           description: 'Profile image file',
         },
+        username: {
+          type: 'string',
+          description: 'username',
+        },
+        phone: {
+          type: 'string',
+          description: 'phone',
+        },
+        marketingAgree: {
+          type: 'boolean',
+        },
+        etc: {
+          type: 'boolean',
+        },
       },
     },
   })
@@ -68,6 +82,7 @@ export class UserController {
     @UploadedFile() profileImg?: BufferedFile,
     @Body() updateUserDto?: CreateUserDto,
   ) {
+    console.log('++++++++++++++', updateUserDto);
     return await this.userService.updateUserById(
       req.user,
       profileImg,

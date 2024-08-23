@@ -27,6 +27,7 @@ export class MinioClientService {
     categoryName: string,
     baseBucket: string = this.baseBucket,
   ): Promise<string> {
+    console.log(file.mimetype.includes('jpg'));
     if (!(file.mimetype.includes('jpg') || file.mimetype.includes('png'))) {
       throw new HttpException(
         'Error uploading file type',

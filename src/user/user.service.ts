@@ -19,6 +19,7 @@ export class UserService {
     private userRepository: Repository<User>,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly minioClientService: MinioClientService,
+    // private readonly agreeOfTermService: AgreeOfTermService,
   ) {}
 
   // 전체 유저 정보 가져오는 로직
@@ -115,6 +116,13 @@ export class UserService {
       image,
       'profile',
     );
+    // await this.agreeOfTermService.updateAgreeOfTerm(user, {
+    //   overTwenty: true,
+    //   useTerm: true,
+    //   personalInfo: true,
+    //   marketingAgree: updateUserDto.agreeOfTerm.marketingAgree,
+    //   etc: updateUserDto.agreeOfTerm.etc,
+    // });
     return await this.userRepository.update(user.id, {
       ...updateUserDto,
       profileImg,
